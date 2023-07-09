@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Рекламные банеры</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles/main.css">
+</head>
+<body>
+    <h1>Рекламные банеры</h1>
+
+    <ul>
+        {% for banner in banners %}
+            <li>
+                <h2>{{ banner.address }}</h2>
+                <p>{{ banner.type }}</p>
+                <p>{{ banner.owner }}</p>
+                <div>{{ banner.html_code|safe }}</div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <script src="/static/scripts/main.js"></script>
+</body>
+</html>
