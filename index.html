@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Рекламные банеры</title>
-    <link rel="stylesheet" type="text/css" href="/static/styles/main.css">
+    <meta charset="UTF-8">
+    <title>Nearest Banners</title>
 </head>
 <body>
-    <h1>Рекламные банеры</h1>
-
-    <ul>
-        {% for banner in banners %}
-            <li>
-                <h2>{{ banner.address }}</h2>
-                <p>{{ banner.type }}</p>
-                <p>{{ banner.owner }}</p>
-                <div>{{ banner.html_code|safe }}</div>
-            </li>
-        {% endfor %}
-    </ul>
-
-    <script src="/static/scripts/main.js"></script>
+    <h1>Nearest Banners</h1>
+    <form action="/nearest_banners" method="get">
+        <label for="lat">Latitude:</label>
+        <input type="text" id="lat" name="user_lat" required>
+        <br>
+        <label for="lon">Longitude:</label>
+        <input type="text" id="lon" name="user_lon" required>
+        <br>
+        <button type="submit">Find Nearest Banners</button>
+    </form>
 </body>
 </html>
