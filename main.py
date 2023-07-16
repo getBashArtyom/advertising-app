@@ -3,9 +3,12 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pymongo import MongoClient
 from search import  find_nearest_banners
+from fastapi.staticfiles import StaticFiles
+import os
 
 app = FastAPI()
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 client = MongoClient("mongodb://localhost:27017/")
 db = client["fake_ads"]

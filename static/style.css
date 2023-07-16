@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.form-wrapper {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="text"] {
+    box-sizing: border-box;
+    width: 200px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+
+}
+
+.input-wrapper label {
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.input-wrapper input {
+    flex: 1;
+    padding: 10px;
+   border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.button-wrapper {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 55px;
+
+}
+
+.button-wrapper button {
+    padding: 15px 50px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+p {
+  margin: 0;
+  color: #666;
+}
+
+/* Стили для баннеров с HTML-кодом */
+li p:last-child {
+  margin-top: 10px;
+}
+
+/* Стили для кнопок в HTML-коде баннеров */
+li p:last-child a {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+li p:last-child a:hover {
+  background-color: #0056b3;
+}
