@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <ul>
-        {% for banner in banners %}
-            <li>
-                <h2>{{ banner.address }}</h2>
-                <p>{{ banner.type }}</p>
-                <p>{{ banner.owner }}</p>
-                {{ banner.html_code|safe }}
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+         <ul class="grid-container">
+            {% for banner in banners %}
+                <li class="grid-item">
+                    <h2>{{ banner.address }}</h2>
+                    <p>Цена: {{ banner.price }}</p>
+                    <p>{{ banner.type }}</p>
+                    <p>{{ banner.owner }}</p>
+                    <p>Размер: {{ banner.size }}</p>
+                    {% if banner.exp_date %}
+                        <p {% if banner.status == 'Не работает' %}class="green"{% else %}class="red"{% endif %}>{{ banner.status }} до {{ banner.exp_date }}</p>
+                    {% else %}
+                        <p {% if banner.status == 'Не работает' %}class="green"{% else %}class="red"{% endif %}>{{ banner.status }}</p>
+                    {% endif %}
+                    {{ banner.html_code|safe }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

@@ -1,11 +1,9 @@
 body {
-    margin: 0;
-    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-  background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 .form-wrapper {
@@ -54,7 +52,6 @@ input[type="text"] {
     left: 50%;
     transform: translateX(-50%);
     margin-top: 55px;
-
 }
 
 .button-wrapper button {
@@ -66,18 +63,51 @@ input[type="text"] {
     cursor: pointer;
 }
 
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
 li {
   padding: 20px;
   border: 1px solid #ccc;
   background-color: #fff;
   margin-bottom: 10px;
+}
+
+p {
+  margin: 0;
+  color: #666;
+}
+
+
+li p:last-child a:hover {
+  background-color: #0056b3;
+}
+
+
+/*
+фывфы*/
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.grid-item {
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -86,26 +116,11 @@ h2 {
   color: #333;
 }
 
-p {
-  margin: 0;
-  color: #666;
+.green {
+    color: green;
 }
 
-/* Стили для баннеров с HTML-кодом */
-li p:last-child {
-  margin-top: 10px;
+.red {
+    color: red;
 }
 
-/* Стили для кнопок в HTML-коде баннеров */
-li p:last-child a {
-  display: inline-block;
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 4px;
-}
-
-li p:last-child a:hover {
-  background-color: #0056b3;
-}

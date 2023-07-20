@@ -15,7 +15,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     return distance
 
 
-def find_nearest_banners(user_lat, user_lon, banners, limit=5):
+def find_nearest_banners(user_lat, user_lon, banners):
     banners_with_distance = []
     for banner in banners:
         banner_lat, banner_lon = banner['cords']
@@ -24,9 +24,17 @@ def find_nearest_banners(user_lat, user_lon, banners, limit=5):
 
     banners_with_distance.sort(key=lambda x: x[1])
 
-    nearest_banners = []
-    for banner, distance in banners_with_distance[:limit]:
-        banner['distance'] = distance
-        nearest_banners.append(banner)
+    nearest_banners_not_working = []
+    nearest_banners_rented = []
+    for banner, distance in banners_with_distance:
+        if banner['status'] == 'Не работает':
+            banner['distance'] = distance
+            nearest_banners_not_working.append(banner)
+        elif banner['status'] == 'В аренде':
+            banner['distance'] = distance
+            nearest_banners_rented.append(banner)
+
+
+    nearest_banners = nearest_banners_not_working + nearest_banners_rented
 
     return nearest_banners

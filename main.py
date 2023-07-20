@@ -4,7 +4,6 @@ from fastapi.templating import Jinja2Templates
 from pymongo import MongoClient
 from search import  find_nearest_banners
 from fastapi.staticfiles import StaticFiles
-import os
 
 app = FastAPI()
 
@@ -21,11 +20,12 @@ def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/nearest_banners", response_class=HTMLResponse)
-def nearest_banners(request: Request, user_lat: float, user_lon: float):
-    banners = collection.find()
+def nearest_banners(request: Request, user_lat: float, user_lon: float, price: float):
 
-    nearest_banners = find_nearest_banners(user_lat, user_lon, banners, limit=5)
-    #print(nearest_banners)
+    banners = collection.find({"price": {"$lte": price}})
+
+    nearest_banners = find_nearest_banners(user_lat, user_lon, banners)
+
     return templates.TemplateResponse("nearest_banners.html", {"request": request, "banners": nearest_banners})
 
 if __name__ == "__main__":
