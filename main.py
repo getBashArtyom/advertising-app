@@ -12,7 +12,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 client = MongoClient("mongodb://localhost:27017/")
 db = client["fake_ads"]
 collection = db["ads"]
-
+print(db)
 templates = Jinja2Templates(directory=".")
 
 @app.get("/", response_class=HTMLResponse)
@@ -24,9 +24,13 @@ def nearest_banners(request: Request, user_lat: float, user_lon: float, price: f
 
     banners = collection.find({"price": {"$lte": price}})
 
-    nearest_banners = find_nearest_banners(user_lat, user_lon, banners)
+    # Преобразуем результат запроса в список словарей
+    banners_list = list(banners)
+
+    nearest_banners = find_nearest_banners(user_lat, user_lon, banners_list)
 
     return templates.TemplateResponse("nearest_banners.html", {"request": request, "banners": nearest_banners})
+
 
 if __name__ == "__main__":
     import uvicorn
