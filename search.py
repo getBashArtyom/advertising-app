@@ -21,7 +21,6 @@ def find_nearest_banners(user_lat, user_lon, banners):
         banner_lat, banner_lon = banner['cords']
         distance = calculate_distance(user_lat, user_lon, banner_lat, banner_lon)
         banners_with_distance.append((banner, distance))
-
     banners_with_distance.sort(key=lambda x: x[1])
 
     nearest_banners_not_working = []

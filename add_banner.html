@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Banner</title>
+</head>
+<body>
+    <h1>Add New Banner</h1>
+    <form id="add_banner" method="post">
+        <label for="location">Location:</label><br>
+        <input type="text" id="location" name="location"><br>
+        <label for="owner">Owner:</label><br>
+        <input type="text" id="owner" name="owner"><br>
+        <label for="price">Price:</label><br>
+        <input type="text" id="price" name="price"><br>
+
+        <label for="html_code">Ссылка:</label><br>
+        <input type="text" id="html_code" name="html_code"><br>
+
+        <label for="type">Type:</label><br>
+        <input type="text" id="type" name="type"><br>
+        <label for="size">Size:</label><br>
+        <input type="text" id="size" name="size"><br>
+        <label for="status">Status:</label><br>
+        <input type="text" id="status" name="status"><br>
+        <label for="exp_date">Expiration Date:</label><br>
+        <input type="text" id="exp_date" name="exp_date"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        document.getElementById('add_banner').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const formDataJson = {};
+            formData.forEach((value, key) => {
+                formDataJson[key] = value;
+            });
+            const response = await fetch('/add_banner', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formDataJson)
+            });
+            const responseData = await response.json();
+            console.log(responseData);
+        });
+    </script>
+</body>
+</html>

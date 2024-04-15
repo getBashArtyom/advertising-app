@@ -4,24 +4,154 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container">
-         <ul class="grid-container">
-            {% for banner in banners %}
-                <li class="grid-item">
-                    <h2>{{ banner.address }}</h2>
-                    <p>Цена: {{ banner.price }}</p>
-                    <p>{{ banner.type }}</p>
-                    <p>{{ banner.owner }}</p>
-                    <p>Размер: {{ banner.size }}</p>
-                    {% if banner.exp_date %}
-                        <p {% if banner.status == 'Не работает' %}class="green"{% else %}class="red"{% endif %}>{{ banner.status }} до {{ banner.exp_date }}</p>
-                    {% else %}
-                        <p {% if banner.status == 'Не работает' %}class="green"{% else %}class="red"{% endif %}>{{ banner.status }}</p>
-                    {% endif %}
-                    {{ banner.html_code|safe }}
-                </li>
-            {% endfor %}
-        </ul>
+<div class="container">
+    <ul class="grid-container">
+        {% for banner in banners %}
+        <li class="grid-item">
+            <h2>{{ banner.address }}</h2>
+            <p>Цена: {{ banner.price }}</p>
+            <p>{{ banner.type }}</p>
+            <p>{{ banner.owner }}</p>
+            <p>Размер: {{ banner.size }}</p>
+            {% if banner.exp_date %}
+            <p {% if banner.status== 'Не работает' %}class="green"{% else %}class="red"{% endif %}>{{ banner.status }}
+            до {{ banner.exp_date }}</p>
+            {% else %}
+            <p {% if banner.status== 'Не работает' %}class="green"{% else %}class="red"{% endif %}>{{ banner.status
+            }}</p>
+            {% endif %}
+            {{ banner.html_code|safe }}
+            <button class="edit-button" data-banner-id="{{ banner._id }}">Редактировать</button>
+            <button class="deleteButton" type="button" data-id="{{ banner._id }}">Удалить</button>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Редактировать баннер</h2>
+        <form id="editForm" method="POST" action="/update_banner">
+            <label for="location">Location:</label><br>
+            <input type="text" id="location" name="location"><br>
+            <label for="owner">Owner:</label><br>
+            <input type="text" id="owner" name="owner"><br>
+        <label for="price">Price:</label><br>
+        <input type="text" id="price" name="price"><br>
+<!--        <label for="html_code">Ссылка:</label><br>-->
+<!--        <input type="text" id="html_code" name="html_code"><br>-->
+<!--        <label for="type">Type:</label><br>-->
+<!--        <input type="text" id="type" name="type"><br>-->
+<!--        <label for="size">Size:</label><br>-->
+<!--        <input type="text" id="size" name="size"><br>-->
+        <label for="status">Status:</label><br>
+        <input type="text" id="status" name="status"><br>
+        <label for="exp_date">Expiration Date:</label><br>
+        <input type="text" id="exp_date" name="exp_date"><br><br>
+
+        <input type="submit" value="Submit">
+
+
+            <div class="button-wrapper">
+                <button type="submit">Отправить</button>
+            </div>
+        </form>
     </div>
+</div>
+<script>
+
+
+var modal = document.getElementById("editModal");
+
+function openModalWithData(bannerData) {
+
+    var locationInput = document.getElementById("location");
+    var ownerInput = document.getElementById("owner");
+
+    var priceInput = document.getElementById("price");
+    var statusInput = document.getElementById("status");
+    var exp_dateInput = document.getElementById("exp_date");
+
+
+
+
+    locationInput.value = bannerData.address;
+    ownerInput.value = bannerData.owner;
+    priceInput.value = bannerData.price;
+    statusInput.value = bannerData.status;
+    exp_dateInput.value = bannerData.exp_date;
+
+
+    var bannerIdInput = document.createElement("input");
+    bannerIdInput.setAttribute("type", "hidden");
+    bannerIdInput.setAttribute("name", "_id");
+    bannerIdInput.setAttribute("value", bannerData._id);
+
+    editForm.appendChild(bannerIdInput);
+
+    modal.style.display = "block";
+}
+
+var editButtons = document.querySelectorAll(".edit-button");
+editButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        var bannerId = button.getAttribute("data-banner-id");
+        fetch("/get_banner/" + bannerId)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                openModalWithData(data);
+            });
+    });
+});
+
+var editForm = document.getElementById("editForm");
+
+editForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    var formData = {
+        "_id": editForm.elements["_id"].value,
+        "location": editForm.elements["location"].value,
+        "owner": editForm.elements["owner"].value,
+
+        "price": editForm.elements["price"].value,
+        "status": editForm.elements["status"].value,
+        "exp_date": editForm.elements["exp_date"].value
+
+    };
+
+    fetch("/update_banner", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        modal.style.display = "none";
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var deleteButtons = document.querySelectorAll(".deleteButton");
+
+    deleteButtons.forEach(function(button) {
+        button.addEventListener("click", function(event) {
+            var bannerId = button.dataset.id;
+            console.log(bannerId)
+            fetch("/delete_banner", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ banner_id: bannerId })
+            })
+        });
+    });
+});
+</script>
 </body>
 </html>

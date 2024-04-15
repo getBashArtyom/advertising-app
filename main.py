@@ -4,6 +4,11 @@ from fastapi.templating import Jinja2Templates
 from pymongo import MongoClient
 from search import  find_nearest_banners
 from fastapi.staticfiles import StaticFiles
+from bson import ObjectId
+from fastapi.responses import JSONResponse
+
+
+from models import Banner
 
 app = FastAPI()
 
@@ -27,6 +32,36 @@ def nearest_banners(request: Request, user_lat: float, user_lon: float, price: f
     nearest_banners = find_nearest_banners(user_lat, user_lon, banners)
 
     return templates.TemplateResponse("nearest_banners.html", {"request": request, "banners": nearest_banners})
+
+@app.get("/add_banner", response_class=HTMLResponse)
+def add_banner(request: Request):
+    return templates.TemplateResponse("add_banner.html", {"request": request})
+
+@app.post("/add_banner")
+def add_banner_post(banner: Banner):
+    collection.insert_one(banner.dict())
+    return {"message": "Banner added successfully!"}
+
+@app.get("/get_banner/{banner_id}")
+def get_banner(banner_id: str):
+    banner = collection.find_one({"_id": ObjectId(banner_id)})
+    if banner:
+        banner['_id'] = str(banner['_id'])
+        # Если баннер найден, возвращаем его данные
+        return JSONResponse(content=banner, status_code=200)
+
+@app.post("/update_banner")
+def update_banner(banner_data: dict):
+    banner_id = banner_data.get("_id")
+    updated_fields = {
+        field: value for field, value in banner_data.items() if field != "_id"
+    }
+    result = collection.update_one({"_id": ObjectId(banner_id)}, {"$set": updated_fields})
+
+@app.post("/delete_banner")
+def update_banner(banner_data: dict):
+    banner_id = banner_data.get("banner_id")
+    result = collection.delete_one({'_id': ObjectId(banner_id)})
 
 if __name__ == "__main__":
     import uvicorn

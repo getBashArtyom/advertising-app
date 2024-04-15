@@ -3,7 +3,7 @@ from pydantic import BaseModel
 class Banner(BaseModel):
     location: str
     owner: str
-    price: float
+    price: str
     html_code: str
     type : str
     size : str
