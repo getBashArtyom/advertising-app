@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pymongo import MongoClient
@@ -30,8 +30,10 @@ def nearest_banners(request: Request, user_lat: float, user_lon: float, price: f
     banners = collection.find({"price": {"$lte": price}})
 
     nearest_banners = find_nearest_banners(user_lat, user_lon, banners)
-
-    return templates.TemplateResponse("nearest_banners.html", {"request": request, "banners": nearest_banners})
+    if nearest_banners:
+        return templates.TemplateResponse("nearest_banners.html", {"request": request, "banners": nearest_banners})
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Banner not found")
 
 @app.get("/add_banner", response_class=HTMLResponse)
 def add_banner(request: Request):
