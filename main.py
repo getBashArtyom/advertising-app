@@ -30,6 +30,7 @@ def nearest_banners(request: Request, user_lat: float, user_lon: float, price: f
     banners = collection.find({"price": {"$lte": price}})
 
     nearest_banners = find_nearest_banners(user_lat, user_lon, banners)
+    print(nearest_banners)
     if nearest_banners:
         return templates.TemplateResponse("nearest_banners.html", {"request": request, "banners": nearest_banners})
     else:
@@ -43,6 +44,7 @@ def add_banner(request: Request):
 def add_banner_post(banner: Banner):
     collection.insert_one(banner.dict())
     return {"message": "Banner added successfully!"}
+    #
 
 @app.get("/get_banner/{banner_id}")
 def get_banner(banner_id: str):
